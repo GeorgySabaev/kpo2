@@ -13,9 +13,15 @@ public class Main {
         for (Path p : fr.readFolder(folderPath)) {
             list.add(pp.parse(p));
         }
-        LinkedList<Page> sorted = new PageSorter(folderPath).sortPageList(list);
-        for (Page page : sorted) {
-            System.out.println(page.contents);
+        try {
+            LinkedList<Page> sorted = new PageSorter(folderPath).sortPageList(list);
+            for (Page page : sorted) {
+                System.out.println(page.contents);
+            }
+        } catch (IllegalArgumentException exception){
+            System.out.println("Некорректные зависимости:");
+            System.out.println(exception.getMessage());
+            System.out.println("Решение задачи для данной папки невозможно.");
         }
     }
 }

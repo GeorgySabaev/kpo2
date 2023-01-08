@@ -17,19 +17,24 @@ public class PageSorter {
         for (Page page : list) {
             for (String dependency : page.dependencies) {
                 if (list.stream().noneMatch((Page p) -> Objects.equals(p.path, dependency))) {
-                    throw new IllegalArgumentException("File " + dependency + " required in " + page.path + " does not exist.");
+                    throw new IllegalArgumentException("Файл " + page.path + " зависит от файла " + dependency + " который не существует.");
                 }
             }
         }
         while (!list.isEmpty()) {
             Iterator<Page> iterator = list.iterator();
+            boolean hasDeletedAPage = false;
             while (iterator.hasNext()) {
                 Page page = iterator.next();
                 if (hashset.containsAll(page.dependencies)) {
                     sorted.add(page);
                     hashset.add(page.path);
                     iterator.remove();
+                    hasDeletedAPage = true;
                 }
+            }
+            if (!hasDeletedAPage){
+                throw new IllegalArgumentException("Существует циклическая зависимость.");
             }
         }
         return sorted;
