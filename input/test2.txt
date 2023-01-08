@@ -1,0 +1,6 @@
+require 'test4.txt'
+
+This is test file #2.
+This file shares a dependency with file #3.
+File #4 should only be displayed once.
+End of file #2.
